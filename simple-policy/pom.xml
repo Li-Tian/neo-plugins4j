@@ -10,6 +10,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>simple-policy</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>org.neo</groupId>
+            <artifactId>neo4j</artifactId>
+            <version>2.9.4.0</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 
 
 </project>
