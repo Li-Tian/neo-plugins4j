@@ -11,6 +11,7 @@ import org.iq80.leveldb.DBFactory;
 import org.iq80.leveldb.Options;
 
 import java.io.File;
+import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,9 +22,10 @@ import akka.actor.Props;
 import neo.exception.InvalidOperationException;
 import neo.ledger.ApplicationExecutionResult;
 import neo.ledger.Blockchain;
-import neo.log.notr.TR;
 import neo.smartcontract.NotifyEventArgs;
 import neo.vm.StackItem;
+
+import neo.log.notr.TR;
 
 public class LogReader extends Plugin implements IRpcPlugin {
 
@@ -32,15 +34,16 @@ public class LogReader extends Plugin implements IRpcPlugin {
 
     public LogReader() {
         DBFactory factory = new JniDBFactory();
-        // 默认如果没有则创建
         Options options = new Options();
         options.createIfMissing(true);
         File file = new File(Settings.Default.path);
 
-//        db = factory.open(file, options);
-        // TODO 啥情况， System.Blockchain
-//        System.ActorSystem.ActorOf(Logger.Props(System.Blockchain, db));
-//        ActorSystem.create(Logger.props(null, db));
+        try {
+            db = factory.open(file, options);
+            system.actorSystem.actorOf(Logger.props(system.blockchain, db));
+        } catch (IOException e) {
+            TR.error(e);
+        }
     }
 
 
