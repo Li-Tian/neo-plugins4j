@@ -90,7 +90,7 @@ public class LogReader extends Plugin implements IRpcPlugin {
                 JsonObject item = new JsonObject();
                 item.addProperty("trigger", result.trigger.name());
                 item.addProperty("contract", result.scriptHash.toString());
-                item.addProperty("vmstate", result.vmState.name());
+                item.addProperty("vmstate", result.vmState.getState());
                 item.addProperty("gas_consumed", result.gasConsumed.toString());
 
                 try {
